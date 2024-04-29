@@ -141,3 +141,26 @@ app.get('/allListings',async(req,res)=>{
     res.send({status:"error"})
   }
 })
+
+app.get('/userListings',async (req,res)=>{
+const email=req.query.email
+try{
+  const items=await Items.find({email: email})
+  res.send({status:"use listings ok",data: items})
+}
+catch(error){
+  res.send({status:"error"})
+}
+})
+
+app.post('/deleteItem',async (req,res)=>{
+  const {itemid}=req.body
+  try{
+    await Items.deleteOne({_id: itemid})
+    res.send({status:"item deleted"})
+  }
+  catch(error){
+    console.log(error)
+    res.send("sike some error shyt")
+  }
+})
